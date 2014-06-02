@@ -38,9 +38,6 @@ class ClientModuleConnect(threading.Thread):
 
     """process a method previously sent in a module by the client"""
     def do_process(self, args):
-        # if args[0] not in dir(self.process_module):
-        #     self.conn.send("Metodo " + args[0] + " nao encontrado.")
-        #     return
         try:
             self.conn.send(self.run_method(self.process_module, args[0], args[1:]))
         except Exception, e:
@@ -50,35 +47,19 @@ class ClientModuleConnect(threading.Thread):
     def run_method(self, module, method_name, args=None):
 
         method = getattr(module, method_name)
-
-        # print method.__name__
-        # print args
-        # if len(args) < 1:
-        #   return method()
         return method(*args)
 
     """main method to manage client requests"""
     def run(self):
         try:
             while True:
-
                 args = self.conn.recv()
 
                 if args[0] == 0:
                     self.register_module(args[1])
                 elif args[0] == 1:
                     self.do_process(args[1:])
-
-                # try:
-                #   l = conn.recv_bytes(1024)
-                #   while(l):
-                #       f.write(l)
-                #       l = conn.recv_bytes(1024)
-                #   f.close()
-                # except EOFError:
-                #   pass
-
-                # self.conn.close()
+                    
         except EOFError:
             print "connection closed from " + repr(self.id)
         except Exception, e:
@@ -88,7 +69,7 @@ class Server():
     address = None
 
     def __init__(self, ip, port):
-        self.address = (ip, port)     # family is deduced to be 'AF_INET'
+        self.address = (ip, port)
 
     """start the server"""
     def start_serve(self):
