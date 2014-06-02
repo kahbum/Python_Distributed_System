@@ -4,7 +4,7 @@ if __name__ == '__main__':
 
 	client = ConnectClient('localhost', 6000)
 
-	client.register_module("func_test.py")
+	client.register_module("test_functions.py")
 
 	print "cube 3 >> " + repr(client.request_process(['cube', 3]))
 	print "quad 7 >> " + repr(client.request_process(['quad', 7]))
