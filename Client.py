@@ -25,4 +25,3 @@ class ConnectClient():
 		if isinstance(answer, Exception):
 			raise answer
 		return answer
- 
