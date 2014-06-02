@@ -12,7 +12,7 @@ To start using just follow the steps ahead:
 
 Note:
 
-    1 - The 'request_process' method will return an object of the same type of your function/method return.
+    1 - The 'request_process' method will return an object of the same return type of your function/method.
     2 - If any called function raises an exception, the exception will be raised to your client application, as if it was running on your computer.
 
 For some examples of use, see the 'example_application.py' file.
