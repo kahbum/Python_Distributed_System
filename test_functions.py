@@ -15,3 +15,6 @@ def ten_times(x):
 
 def mult(x, y):
     return x*y
+
+def hello(name):
+    return "Hello " + name + "!"

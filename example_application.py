@@ -2,7 +2,7 @@ from Client import *
 
 if __name__ == '__main__':
 
-    client = ConnectClient('localhost', 6000)
+    client = ConnectClient('localhost', 7000)
 
     client.register_module("test_functions.py")
 
@@ -12,4 +12,5 @@ if __name__ == '__main__':
     print "ten_times 7 >> " + repr(client.request_process(['ten_times', 7]))
     print "mult 7 8 >> " + repr(client.request_process(['mult', 7, 8]))
     print "test1 >> " + repr(client.request_process(['test1', ]))
+    print "hello >> " + repr(client.request_process(['hello', 'world']))
     print "cube 4 >> " + repr(client.request_process(['cube', 4]))

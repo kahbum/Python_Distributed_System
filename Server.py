@@ -2,7 +2,8 @@ import threading
 from multiprocessing.connection import Listener
 import os
 import imp
-
+import sys
+import types
 
 process_directory = "process_files/"
 
@@ -27,39 +28,39 @@ class ClientModuleConnect(threading.Thread):
         os.remove(process_directory+self.process_file+"c")
         self.conn.close()
     
-    """register a module sent by the client"""
     def register_module(self, content):
+        """register a module sent by the client"""
         f = open(process_directory+self.process_file, "wb")
         f.write(content)
         f.close()
 
         self.process_module = imp.load_source(self.process_file[:-3], process_directory+self.process_file)
-        # print dir(self.process_module)
 
-    """process a method previously sent in a module by the client"""
     def do_process(self, args):
+        """process a method previously sent in a module by the client"""
         try:
             self.conn.send(self.run_method(self.process_module, args[0], args[1:]))
         except Exception, e:
             self.conn.send(e)
 
-    """execute a method from a module"""
     def run_method(self, module, method_name, args=None):
-
+        """execute a method from a module"""
         method = getattr(module, method_name)
+
         return method(*args)
 
-    """main method to manage client requests"""
     def run(self):
+        """main method to manage client requests"""
         try:
             while True:
+
                 args = self.conn.recv()
 
                 if args[0] == 0:
                     self.register_module(args[1])
                 elif args[0] == 1:
                     self.do_process(args[1:])
-                    
+
         except EOFError:
             print "connection closed from " + repr(self.id)
         except Exception, e:
@@ -67,13 +68,13 @@ class ClientModuleConnect(threading.Thread):
 
 class Server():
     address = None
+    threads = []
 
-    def __init__(self, ip, port):
+    def __init__(self, ip = 'localhost', port = 7000):
         self.address = (ip, port)
 
-    """start the server"""
     def start_serve(self):
-        threads = []
+        """start the server"""
         while True:
             listener = Listener(self.address)
 
@@ -86,5 +87,15 @@ class Server():
         
 
 if __name__ == '__main__':
-    server = Server('localhost', 6000)
+    ip = 'localhost'
+    port = 7000
+    if len(sys.argv) == 2:
+        ip = sys.argv[1]
+    elif len(sys.argv) == 3 and sys.argv[2].isdigit():
+        ip = sys.argv[1]
+        port = int(sys.argv[2])
+    elif len(sys.argv) > 3:
+        print "Invalid arguments."
+        exit()
+    server = Server(ip, port)
     server.start_serve()
