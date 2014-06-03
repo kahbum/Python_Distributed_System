@@ -14,6 +14,6 @@ Notes:
 
     1 - The 'request_process' method will return an object of the same return type of your function/method.
     2 - If any called function raises an exception, the exception will be raised to your client application, as if it was running on your computer.
-    3 - At the moment, the Server is acting as Server and Host. In future updates, Server and Host will become independent.
+    3 - At the moment, the Server is acting as Server and Host. In the future, Server and Host will become independent.
 
 For some examples of use, see 'example_application.py' and the 'test_functions.py' files.
