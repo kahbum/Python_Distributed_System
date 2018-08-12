@@ -14,3 +14,4 @@ if __name__ == '__main__':
     print "test1 >> " + repr(client.request_process(['test1', ]))
     print "hello >> " + repr(client.request_process(['hello', 'world']))
     print "cube 4 >> " + repr(client.request_process(['cube', 4]))
+    print "cube 5 >> " + repr(client.request_process(['cube', 5]))
